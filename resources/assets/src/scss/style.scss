@@ -1,0 +1,18 @@
+// import all scss files here, please don't remove the notes for this template
+
+// mostly default imports
+@import 'libraries/fonts'; // for all embedded fonts
+@import 'variables'; // all declared variables including font size, color and bg color and font families
+@import 'libraries/mixins'; // for groups of css that can be reuse like CSS3 for cross browsing
+@import 'libraries/reset'; // this includes all normalize or reset css
+@import 'libraries/easing'; // for easing
+
+// unique imports
+@import 'libraries/pace'; // for pace preloader
+@import 'libraries/preloader'; // for pace preloader
+
+// all customized styles
+@import 'header'; // the main style css
+@import 'footer'; // the main style css
+@import 'main'; // the main style css
+@import "login"; // for login page

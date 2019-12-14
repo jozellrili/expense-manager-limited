@@ -1,0 +1,39 @@
+#login-container {
+  height: 100%;
+  height: auto !important;
+  min-height: 100vh;
+  color: #525252;
+
+  .login-wrapper {
+
+    .login-container {
+      background: #191919 !important;
+      height: 100vh;
+
+      .page-title {
+        color: #ffffff;
+      }
+
+      .login-form {
+        width: 500px;
+        margin: 0 auto;
+        background: #fff;
+        border-radius: 4px;
+        padding: 30px;
+        box-shadow: 1px 1px 2px rgba(0, 0, 0, .5);
+
+        .remember-me {
+          padding-left: 15px;
+
+          .rm-checkbox {
+            margin-top: 0;
+          }
+        }
+
+        input[type="text"] {
+          width: 100%;
+        }
+      }
+    }
+  }
+}
