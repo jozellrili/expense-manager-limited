@@ -18,7 +18,7 @@
             </div>
             <div class="table-responsive">
                 <p class="text-dark">
-                    <i class="fas fa-exclamation-circle"></i> Click the display name to update the user.
+                    <i class="fas fa-exclamation-circle"></i> Click the item to update the user.
                 </p>
                 <table id="users-table" class="table table-bordered table-striped {{ count($users) > 0 ? 'datatable' : '' }} @can('user_delete') dt-select @endcan">
                     <thead>
@@ -31,15 +31,11 @@
                     <tbody>
                     @if (count($users) > 0)
                         @foreach ($users as $user)
-                            <tr data-entry-id="{{ $user->id }}">
-                                <td field-key='name'>
-                                    <a href="#" class="edit-user">
-                                        {{ $user->name }}
-                                    </a>
-                                </td>
-                                <td field-key='email'>{{ $user->email }}</td>
-                                <td field-key='role'>{{ $user->role->title or '' }}</td>
-                                <td field-key='created-at'>{{ date('Y-m-d', strtotime($user->created_at))}}</td>
+                            <tr data-entry-id="{{ $user->id }}" class="edit-user edit-row">
+                                <td field-key="name" class="name text-info">{{ $user->name }}</td>
+                                <td field-key="email" class="email">{{ $user->email }}</td>
+                                <td field-key="role" class="role" data-role-id="{{ $user->role_id }}">{{ $user->role->title or '' }}</td>
+                                <td field-key="created-at">{{ date('Y-m-d', strtotime($user->created_at))}}</td>
                             </tr>
                         @endforeach
                     @else
@@ -79,15 +75,16 @@
                     </div>
                     <div class="position-relative form-group">
                         <label>@lang('quickadmin.users.fields.email')</label>
-                        <input class="form-control form-control-sm" id="role-email" placeholder="juandelacruz@email.com">
+                        <input class="form-control form-control-sm" id="user-email" placeholder="juandelacruz@email.com">
                     </div>
                     <div class="position-relative form-group">
                         <label>@lang('quickadmin.users.fields.role')</label>
-                        {!! Form::select('role_id', $roles, old('role_id'), ['class' => 'form-control form-control-sm select2','required' => '']) !!}
+                        {!! Form::select('role_id', $roles, old('role_id'), ['id' => 'user-role', 'class' => 'form-control form-control-sm select2','required' => '']) !!}
                     </div>
                     {!! Form::close() !!}
                 </div>
                 <div class="modal-footer">
+                    <button type="button" class="btn btn-danger btn-sm delete-btn" id="delete-user">Delete</button>
                     <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Cancel</button>
                     <button type="button" class="btn btn-primary btn-sm" id="save-user">Save</button>
                 </div>

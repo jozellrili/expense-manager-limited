@@ -17,7 +17,7 @@
             </div>
             <div class="table-responsive">
                 <p class="text-dark">
-                    <i class="fas fa-exclamation-circle"></i> Click the display name to update the role.
+                    <i class="fas fa-exclamation-circle"></i> Click the item to update the role.
                 </p>
                 <table id="role-table" class="table table-bordered table-striped {{ count($roles) > 0 ? 'datatable' : '' }} @can('role_delete') dt-select @endcan">
                     <thead>
@@ -28,12 +28,10 @@
                     <tbody>
                     @if (count($roles) > 0)
                         @foreach ($roles as $role)
-                            <tr data-entry-id="{{ $role->id }}">
-                                <td field-key="title" class="title">
-                                    <a href="" class="edit-role">{{ $role->title }}</a>
-                                </td>
+                            <tr class="{{ $role->id != 1 ?  'edit-role edit-row' : '' }}" data-entry-id="{{ $role->id }}">
+                                <td field-key="title" class="title {{ $role->id != 1 ?  'text-info' : 'text-dark' }}">{{ $role->title }}</td>
                                 <td field-key="description" class="description">{{ $role->description }}</td>
-                                <td field-key="created-at">{{ $role->created_at }}</td>
+                                <td field-key="created-at">{{ date('Y-m-d', strtotime($role->created_at)) }}</td>
                             </tr>
                         @endforeach
                     @else
@@ -79,6 +77,7 @@
                     {!! Form::close() !!}
                 </div>
                 <div class="modal-footer">
+                    <button type="button" class="btn btn-danger btn-sm text-right delete-btn" id="delete-role">Delete</button>
                     <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Cancel</button>
                     <button type="button" class="btn btn-primary btn-sm" id="save-role">Save</button>
                 </div>

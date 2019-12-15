@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Requests\Admin\DestroyUsersRequest;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
@@ -22,14 +23,13 @@ class UsersController extends Controller
         if (!Gate::allows('user_access')) {
             return abort(401);
         }
-        
-        
+
         $users = User::all();
         $roles = \App\Role::get()->pluck('title', 'id')->prepend(trans('quickadmin.qa_please_select'), '');
 
         return view('admin.users.index', compact('users', 'roles'));
     }
-    
+
     /**
      * Show the form for creating new User.
      *
@@ -40,12 +40,12 @@ class UsersController extends Controller
         if (!Gate::allows('user_create')) {
             return abort(401);
         }
-        
+
         $roles = \App\Role::get()->pluck('title', 'id')->prepend(trans('quickadmin.qa_please_select'), '');
-        
+
         return view('admin.users.create', compact('roles'));
     }
-    
+
     /**
      * Store a newly created User in storage.
      *
@@ -61,17 +61,20 @@ class UsersController extends Controller
 
         if ($request->ajax()) {
             $fields = $request->all();
-            $fields['password'] = Hash::make('password');
+            $fields['password'] = Hash::make($request->post('password'));
             $user = User::create($fields);
 
-            if (count($user)) return \Response::json(['status' => 1, 'message' => 'New user added', 'data' => $user]);
-            else return \Response::json(['status' => 0, 'message' => 'Oops! Something went wrong']);
+            if (count($user)) {
+                unset($user['password']);
+                $user['created_at'] = date('Y-m-d', strtotime($user['created_at']));
+                return \Response::json(['status' => 1, 'message' => 'New user added', 'data' => $user]);
+            } else return \Response::json(['status' => 0, 'message' => 'Oops! Something went wrong']);
         }
-        
+
         return redirect()->route('admin.users.index');
     }
-    
-    
+
+
     /**
      * Show the form for editing User.
      *
@@ -84,19 +87,19 @@ class UsersController extends Controller
         if (!Gate::allows('user_edit')) {
             return abort(401);
         }
-        
+
         $roles = \App\Role::get()->pluck('title', 'id')->prepend(trans('quickadmin.qa_please_select'), '');
-        
+
         $user = User::findOrFail($id);
-        
+
         return view('admin.users.edit', compact('user', 'roles'));
     }
-    
+
     /**
      * Update User in storage.
      *
      * @param \App\Http\Requests\UpdateUsersRequest $request
-     * @param int                                   $id
+     * @param int $id
      *
      * @return \Illuminate\Http\Response
      */
@@ -107,10 +110,9 @@ class UsersController extends Controller
         }
 
         if ($request->ajax()) {
-            $fields = $request->all();
 
             $user = User::findOrFail($id);
-            $updated = $user->update($fields);
+            $updated = $user->update($request->all());
 
             if ($updated) return \Response::json(['status' => 1, 'message' => 'User information updated!', 'data' => ['id' => $id]]);
             else return \Response::json(['status' => 0, 'message' => 'Oops! Something went wrong']);
@@ -118,8 +120,8 @@ class UsersController extends Controller
 
         return redirect()->route('admin.users.index');
     }
-    
-    
+
+
     /**
      * Display User.
      *
@@ -132,34 +134,41 @@ class UsersController extends Controller
         if (!Gate::allows('user_view')) {
             return abort(401);
         }
-        
-        $roles              = \App\Role::get()->pluck('title', 'id')->prepend(trans('quickadmin.qa_please_select'), '');
+
+        $roles = \App\Role::get()->pluck('title', 'id')->prepend(trans('quickadmin.qa_please_select'), '');
         $expense_categories = \App\ExpenseCategory::where('created_by_id', $id)->get();
-        $expenses           = \App\Expense::where('created_by_id', $id)->get();
-        $user               = User::findOrFail($id);
-        
+        $expenses = \App\Expense::where('created_by_id', $id)->get();
+        $user = User::findOrFail($id);
+
         return view('admin.users.show', compact('user', 'expense_categories', 'income_categories', 'currencies', 'incomes', 'expenses'));
     }
-    
-    
+
+
     /**
      * Remove User from storage.
      *
+     * @param DestroyUsersRequest $request
      * @param int $id
      *
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(DestroyUsersRequest $request, $id)
     {
         if (!Gate::allows('user_delete')) {
             return abort(401);
         }
-        $user = User::findOrFail($id);
-        $user->delete();
-        
+        if ($request->ajax()) {
+
+            $user = User::findOrFail($id);
+            $deleted = $user->delete();
+
+            if ($deleted) return \Response::json(['status' => 1, 'message' => 'User deleted permanently!']);
+            else return \Response::json(['status' => 0, 'message' => 'Oops! Something went wrong']);
+        }
+
         return redirect()->route('admin.users.index');
     }
-    
+
     /**
      * Delete all selected User at once.
      *
@@ -172,11 +181,11 @@ class UsersController extends Controller
         }
         if ($request->input('ids')) {
             $entries = User::whereIn('id', $request->input('ids'))->get();
-            
+
             foreach ($entries as $entry) {
                 $entry->delete();
             }
         }
     }
-    
+
 }

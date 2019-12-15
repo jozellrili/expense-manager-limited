@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Requests\Admin\DestroyRolesRequest;
 use App\Role;
+use App\User;
 use http\Client\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
@@ -130,16 +132,28 @@ class RolesController extends Controller
     /**
      * Remove Role from storage.
      *
+     * @param DestroyRolesRequest $request
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(DestroyRolesRequest $request, $id)
     {
         if (!Gate::allows('role_delete')) {
             return abort(401);
         }
-        $role = Role::findOrFail($id);
-        $role->delete();
+
+        if ($request->ajax()) {
+
+            // If user is trying to delete admin, don't allow then return error
+            if ($id == 1) \Response::json(['status' => 2, 'message' => 'Oops! Cannot delete role!']);
+
+            $role = Role::findOrFail($id);
+            $deleted = $role->delete();
+
+            if ($deleted) {
+                return \Response::json(['status' => 1, 'message' => 'Role deleted permanently!']);
+            } else return \Response::json(['status' => 0, 'message' => 'Oops! Something went wrong']);
+        }
 
         return redirect()->route('admin.roles.index');
     }
@@ -162,5 +176,4 @@ class RolesController extends Controller
             }
         }
     }
-
 }

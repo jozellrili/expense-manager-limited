@@ -3,6 +3,7 @@
     var addButton, saveButton = null;
     var modalActionName = null;
     var saveXhr = null;
+    var delXhr = null;
     var userTable = null;
     var requestType = null;
 
@@ -10,6 +11,7 @@
         $('#user-id').val('');
         $('#user-name').val('');
         $('#user-email').val('');
+        $('#user-role').val('');
     }
 
     function onAddUser(e) {
@@ -30,11 +32,10 @@
         modalActionName = 'Update User';
         requestType = 'PUT';
 
-        var row = $(e.currentTarget).closest('tr');
-
-        modal.find('#user-id').val(row.attr('data-entry-id').trim());
-        modal.find('#user-display-name').val(row.find('.title').text().trim());
-        modal.find('#user-description').val(row.find('.description').text().trim());
+        modal.find('#user-id').val($(e.currentTarget).attr('data-entry-id').trim());
+        modal.find('#user-name').val($(e.currentTarget).find('.name').text().trim());
+        modal.find('#user-email').val($(e.currentTarget).find('.email').text().trim());
+        modal.find('#user-role').val($(e.currentTarget).find('.role').attr('data-role-id').trim());
 
         modal.find('.action-name').text(modalActionName);
         modal.modal();
@@ -43,18 +44,26 @@
 
     function onSaveUser(e) {
         e.preventDefault();
+        var url = null;
         var data = {
             id: modal.find('#user-id').val(),
-            title: modal.find('#user-display-name').val(),
-            description: modal.find('#user-description').val(),
+            name: modal.find('#user-name').val(),
+            email: modal.find('#user-email').val(),
+            password: 'password',
+            role_id: modal.find('#user-role').val(),
             _token: modal.find('input[name="_token"]').val(),
         };
 
-        if (requestType == 'PUT') ajax_url = ajax_url + '/' + data.id;
+        console.log(data);
+
+        if (requestType == 'PUT') url = ajax_url + '/' + data.id;
+        else url =  ajax_url;
+
+        console.log(requestType);
 
         if (saveXhr && saveXhr.readyState != 4) abort();
         saveXhr = $.ajax({
-            url: ajax_url,
+            url: url,
             type: requestType,
             data: data,
             dataType: 'json',
@@ -65,25 +74,29 @@
                 console.log(a, b, c)
             },
             success: function (response) {
-                console.log(response);
                 if (response.status == 1) {
 
                     if (requestType == 'POST') {
-                        userTable.find('tbody').append(
-                            '<tr data-entry-id=' + response.data.id + '>' +
-                            ' <td field-key="title">' +
-                            '<a href="" class="edit-user">' + response.data.title + '</a>' +
-                            '</td>' +
-                            '<td field-key="description">' + response.data.description + '</td>' +
-                            '<td field-key="created-at">' + response.data.created_at + '</td>'
-                        );
-                    } else {
-                        console.log('here');
-                        var row = userTable.find('tbody tr[data-entry-id="' + response.data.id + '"]');
-                        console.log(row);
 
-                        row.find('.title a').text(data.title);
-                        row.find('.description').text(data.description);
+                        var role = modal.find('#user-role option:selected').text();
+                        var createdAt = response.data.created_at.split(' ');
+
+                        userTable.find('tbody').append(
+                            '<tr data-entry-id=""' + response.data.id + '" class="edit-user edit-row">' +
+                            '<td field-key="name" class="name text-info">' + response.data.name + '</td>' +
+                            '<td field-key="email">' + response.data.email + '</td>' +
+                            '<td field-key="role" data-role-id="'+ response.data.role_id +'">' + role + '</td>' +
+                            '<td field-key="created-at">' + createdAt[0] + '</td>'
+                        );
+
+                        // rebind edit event
+                        userTable.find('.edit-row').on('click', onEditUser);
+
+                    } else {
+                        var row = userTable.find('tbody tr[data-entry-id="' + response.data.id + '"]');
+                        row.find('.name').text(data.name);
+                        row.find('.email').text(data.email);
+                        row.find('.email').text(data.role);
                     }
 
                     notify({msg: response.message});
@@ -98,8 +111,32 @@
 
     }
 
-    function displayModalActionName() {
-        modal.find('.action-name').text(modalActionName);
+    function onDeleteUser() {
+
+        var id = modal.find('#user-id').val().trim();
+        requestType = 'DELETE';
+
+        if (delXhr && delXhr.readyState != 4) abort();
+        delXhr = $.ajax({
+            url: ajax_url + '/' + id,
+            type: requestType,
+            data: {id: id, _token: modal.find('input[name="_token"]').val()},
+            dataType: 'json',
+            beforeSend: function () {},
+            error: function (a, b, c) {
+                console.log(a, b, c)
+            },
+            success: function (response) {
+                if (response.status == 1) {
+                    userTable.find('tbody').find('tr[data-entry-id="'+ id + '"]').remove();
+                    notify({msg: response.message});
+                    modal.modal('hide');
+                } else {
+                    notify({type: 'danger', msg: response.message})
+                }
+            },
+            complete: function () {},
+        });
     }
 
     function init() {
@@ -115,8 +152,7 @@
         addButton.on('click', onAddUser);
         saveButton.on('click', onSaveUser);
         $('.edit-user').on('click', onEditUser);
-
-        displayModalActionName();
+        $('#delete-user').on('click', onDeleteUser);
     }
 
     $(document).ready(init);

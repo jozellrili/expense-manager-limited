@@ -1,10 +1,9 @@
 <?php
-
 namespace App\Http\Requests\Admin;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreUsersRequest extends FormRequest
+class DestroyRolesRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,10 +23,7 @@ class StoreUsersRequest extends FormRequest
     public function rules()
     {
         return [
-            'name'     => 'required',
-            'email'    => 'required|email|unique:users,email',
-            'password' => 'required',
-            'role_id'  => 'required',
+            'id' => 'required',
         ];
     }
 }
