@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Expense;
+use App\ExpenseCategory;
 use App\Http\Requests\Admin\DestroyExpenseRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
@@ -26,8 +27,9 @@ class ExpensesController extends Controller
             return abort(401);
         }
 
+        $category = new ExpenseCategory;
         $expenses = Expense::all();
-        $expense_categories = \App\ExpenseCategory::get()->pluck('name', 'id')->prepend(trans('quickadmin.qa_please_select'), '');
+        $expense_categories = $category->getAllCategories();
 
         return view('admin.expenses.index', compact('expenses', 'expense_categories'));
     }

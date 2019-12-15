@@ -25,13 +25,14 @@ class HomeController extends Controller
      */
     public function index()
     {
+        $user = \Auth::user();
         $expense = new Expense();
 
-        $expenses = $expense->getTotalExpenseGroupByCategory();
+        if ($user->role_id != 1) $expenses = $expense->getMyTotalExpenses();
+        else $expenses = $expense->getTotalExpenseGroupByCategory();
 
-        $labels = [];
-        $data = [];
-
+        $labels = []; // labels for pie chart
+        $data = []; // data for pie chart
         foreach ($expenses as $expense) {
             $labels[] = $expense->category;
             $data[] = $expense->total;

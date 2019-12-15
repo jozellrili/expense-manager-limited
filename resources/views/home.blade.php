@@ -18,7 +18,7 @@
                     <div class="col-lg-6">
                         <table class="table table-borderless">
                             <thead>
-                            <th>Expense Category</th>
+                            <th>Expense Categories</th>
                             <th>Total</th>
                             </thead>
                             <tbody>
@@ -37,8 +37,10 @@
                             </tbody>
                         </table>
                     </div>
-                    <div class="col-lg-6">
-                        <canvas id="myChart" width="100" height="100"></canvas>
+                    <div class="col-lg-6 text-center d-flex justify-content-center">
+                        <div style="width: 65%">
+                            <canvas id="myChart" width="100" height="100"></canvas>
+                        </div>
                     </div>
                 </div>
             </div>

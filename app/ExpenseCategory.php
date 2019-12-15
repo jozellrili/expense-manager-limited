@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\FilterByUser;
+use Illuminate\Support\Facades\DB;
 
 /**
  * Class ExpenseCategory
@@ -33,5 +34,11 @@ class ExpenseCategory extends Model
     {
         return $this->belongsTo(User::class, 'created_by_id');
     }
-    
+
+    public function getAllCategories()
+    {
+        $categories = DB::table('expense_categories')->get()->pluck('name', 'id')->prepend(trans('quickadmin.qa_please_select'), '');
+
+        return $categories;
+    }
 }

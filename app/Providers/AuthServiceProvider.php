@@ -32,15 +32,15 @@ class AuthServiceProvider extends ServiceProvider
         
         // Auth gates for: User management
         Gate::define('user_management_access', function ($user) {
-            return in_array($user->role_id, [1]);
+            return $user->role_id == 1;
         });
 
         // Auth gates for: Roles
         Gate::define('role_access', function ($user) {
-            return in_array($user->role_id, [1]);
+            return $user->role_id == 1;
         });
         Gate::define('role_create', function ($user) {
-            return in_array($user->role_id, [1]);
+            return $user->role_id == 1;
         });
         Gate::define('role_edit', function ($user) {
             return in_array($user->role_id, [1]);
@@ -54,32 +54,32 @@ class AuthServiceProvider extends ServiceProvider
 
         // Auth gates for: Users
         Gate::define('user_access', function ($user) {
-            return in_array($user->role_id, [1]);
+            return $user->role_id == 1;
         });
         Gate::define('user_create', function ($user) {
-            return in_array($user->role_id, [1]);
+            return $user->role_id == 1;
         });
         Gate::define('user_edit', function ($user) {
-            return in_array($user->role_id, [1]);
+            return $user->role_id == 1;
         });
         Gate::define('user_view', function ($user) {
-            return in_array($user->role_id, [1]);
+            return $user->role_id == 1;
         });
         Gate::define('user_delete', function ($user) {
-            return in_array($user->role_id, [1]);
+            return $user->role_id == 1;
         });
 
         // Auth gates for: Expense management
         Gate::define('expense_management_access', function ($user) {
-            return in_array($user->role_id, [1, 2]);
+            return true;
         });
 
         // Auth gates for: Expense category
         Gate::define('expense_category_access', function ($user) {
-            return in_array($user->role_id, [1]);
+            return $user->role_id == 1;
         });
         Gate::define('expense_category_create', function ($user) {
-            return in_array($user->role_id, [1]);
+            return $user->role_id == 1;
         });
         Gate::define('expense_category_edit', function ($user) {
             return in_array($user->role_id, [1]);
@@ -93,19 +93,19 @@ class AuthServiceProvider extends ServiceProvider
 
         // Auth gates for: Expenserole_delete
         Gate::define('expense_access', function ($user) {
-            return in_array($user->role_id, [1, 2]);
+            return true;
         });
         Gate::define('expense_create', function ($user) {
-            return in_array($user->role_id, [1, 2]);
+            return true;
         });
         Gate::define('expense_edit', function ($user) {
-            return in_array($user->role_id, [1, 2]);
+            return true;
         });
         Gate::define('expense_view', function ($user) {
-            return in_array($user->role_id, [1, 2]);
+            return true;
         });
         Gate::define('expense_delete', function ($user) {
-            return in_array($user->role_id, [1]);
+            return true;
         });
     }
 }

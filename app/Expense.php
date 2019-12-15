@@ -95,5 +95,18 @@ class Expense extends Model
 
         return $total;
     }
+
+    public function getMyTotalExpenses()
+    {
+        $user = \Auth::user();
+
+        $total = DB::table('expenses')
+            ->join('expense_categories', 'expenses.expense_category_id', '=', 'expense_categories.id')
+            ->select(DB::raw('SUM(amount) as total'), 'expense_categories.name as category')
+            ->groupBy('expense_categories.name')
+            ->where('expenses.created_by_id', '=', $user->id)->get()->toArray();
+
+        return $total;
+    }
     
 }
