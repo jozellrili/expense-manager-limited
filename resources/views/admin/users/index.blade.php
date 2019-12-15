@@ -20,7 +20,7 @@
                 <p class="text-dark">
                     <i class="fas fa-exclamation-circle"></i> Click the display name to update the user.
                 </p>
-                <table class="table table-bordered table-striped {{ count($users) > 0 ? 'datatable' : '' }} @can('user_delete') dt-select @endcan">
+                <table id="users-table" class="table table-bordered table-striped {{ count($users) > 0 ? 'datatable' : '' }} @can('user_delete') dt-select @endcan">
                     <thead>
                     <th>@lang('quickadmin.users.fields.name')</th>
                     <th>@lang('quickadmin.users.fields.email')</th>

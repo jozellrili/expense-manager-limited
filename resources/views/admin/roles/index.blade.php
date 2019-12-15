@@ -19,7 +19,7 @@
                 <p class="text-dark">
                     <i class="fas fa-exclamation-circle"></i> Click the display name to update the role.
                 </p>
-                <table class="table table-bordered table-striped {{ count($roles) > 0 ? 'datatable' : '' }} @can('role_delete') dt-select @endcan">
+                <table id="role-table" class="table table-bordered table-striped {{ count($roles) > 0 ? 'datatable' : '' }} @can('role_delete') dt-select @endcan">
                     <thead>
                     <th>@lang('quickadmin.roles.fields.title')</th>
                     <th>@lang('quickadmin.roles.fields.description')</th>
@@ -29,11 +29,11 @@
                     @if (count($roles) > 0)
                         @foreach ($roles as $role)
                             <tr data-entry-id="{{ $role->id }}">
-                                <td field-key='title'>
+                                <td field-key="title" class="title">
                                     <a href="" class="edit-role">{{ $role->title }}</a>
                                 </td>
-                                <td field-key='description'>{{ $role->description }}</td>
-                                <td field-key='created-at'>{{ $role->created_at }}</td>
+                                <td field-key="description" class="description">{{ $role->description }}</td>
+                                <td field-key="created-at">{{ $role->created_at }}</td>
                             </tr>
                         @endforeach
                     @else
@@ -89,6 +89,7 @@
 
 @section('javascript')
     <script>
+        var ajax_url = '{{ route('admin.roles.update', '') }}';
         @can('role_delete')
             window.route_mass_crud_entries_destroy = '{{ route('admin.roles.mass_destroy') }}';
         @endcan

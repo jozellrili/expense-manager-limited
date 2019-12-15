@@ -41,6 +41,42 @@ var globalFunc = {
 	}
 };
 
+function notify(options) {
+	// defaults
+	if (typeof options.type == "undefined") options.type = 'success';
+	if (typeof options.title == "undefined") options.title = 'Success';
+
+	$.notify({
+		// options
+		title: options.title,
+		message: options.msg
+	}, {
+		// settings
+		type: options.type,
+		delay: options.delay,
+		animate: {
+			enter: 'animated fadeInDown',
+			exit: 'animated fadeOutUp'
+		},
+		template: '<div data-notify="container" class="col-xs-11 col-sm-3 alert alert-{0}" role="alert">' +
+			'<button type="button" aria-hidden="true" class="close" data-notify="dismiss">×</button>' +
+			'<span data-notify="icon"></span> ' +
+			'<span data-notify="title"><strong>{1}</strong></span><br>' +
+			'<span data-notify="message">{2}</span>' +
+			'<div class="progress" data-notify="progressbar">' +
+			'<div class="progress-bar progress-bar-{0}" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>' +
+			'</div>' +
+			'<a href="{3}" target="{4}" data-notify="url"></a>' +
+			'</div>'
+	});
+
+	if (options.scrollToTop) {
+		$('html, body').animate({scrollTop: $('section.content').top - 100}, 1000, 'swing', function () {
+			// do nothing
+		});
+	}
+}
+
 $(window).resize(function() {
 	globalFunc.init();
 });
