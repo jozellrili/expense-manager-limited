@@ -35,9 +35,9 @@ var globalFunc = {
 		$('.classname').css({minHeight: ClassName});
 	},
 	touch: function(){
-		if (Modernizr.touch) {
-			$('html').addClass('bp-touch');
-		}
+		// if (Modernizr.touch) {
+		// 	$('html').addClass('bp-touch');
+		// }
 	}
 };
 

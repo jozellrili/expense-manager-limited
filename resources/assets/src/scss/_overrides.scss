@@ -1,0 +1,9 @@
+.breadcrumb {
+  background: unset;
+  float: right;
+  margin-bottom: unset;
+
+  .breadcrumb-item + .breadcrumb-item::before {
+    content: '>';
+  }
+}

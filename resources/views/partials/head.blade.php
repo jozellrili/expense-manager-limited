@@ -12,8 +12,7 @@
 <!-- Ionicons -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
 <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:400,400i,600,600i,700,700i" media="screen" rel="stylesheet" type="text/css">
-<link href="{{ url('plugins/architectui/css/main.css') }}" rel="stylesheet">
-<link href="{{ url('css/style.min.css') }}" rel="stylesheet">
+
 <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
 <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
 <!--[if lt IE 9] -->
@@ -24,15 +23,11 @@
 <!-- Font Awesome Kit-->
 <script src="https://kit.fontawesome.com/f272297db8.js" crossorigin="anonymous"></script>
 
-<link rel="stylesheet"
-      href="https://code.jquery.com/ui/1.11.3/themes/smoothness/jquery-ui.css">
-<link rel="stylesheet"
-      href="//cdn.datatables.net/1.10.9/css/jquery.dataTables.min.css"/>
-<link rel="stylesheet"
-      href="https://cdn.datatables.net/select/1.2.0/css/select.dataTables.min.css"/>
-<link rel="stylesheet"
-      href="//cdn.datatables.net/buttons/1.2.4/css/buttons.dataTables.min.css"/>
-<link rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/jquery-ui-timepicker-addon/1.4.5/jquery-ui-timepicker-addon.min.css"/>
-<link rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/css/bootstrap-datepicker.standalone.min.css"/>
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.11.3/themes/smoothness/jquery-ui.css">
+<link rel="stylesheet" href="//cdn.datatables.net/1.10.9/css/jquery.dataTables.min.css"/>
+<link rel="stylesheet" href="https://cdn.datatables.net/select/1.2.0/css/select.dataTables.min.css"/>
+<link rel="stylesheet" href="//cdn.datatables.net/buttons/1.2.4/css/buttons.dataTables.min.css"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/css/bootstrap-datepicker.standalone.min.css"/>
+<link href="{{ url('plugins/architectui/css/main.css') }}" rel="stylesheet">
+<link href="{{ url('plugins/bootstrap-4.0/css/bootstrap.min.css') }}" rel="stylesheet">
+<link href="{{ url('css/style.min.css') }}" rel="stylesheet">

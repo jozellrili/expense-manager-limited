@@ -2,86 +2,69 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="card">
-    <div class="card-header">
-        <h3 class="card-title">@lang('quickadmin.users.title')</h3>
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">@lang('quickadmin.users.title')</h3>
 
-    </div>
-    <div class="card-body">
-        @can('user_create')
-        <p>
-            <a href="{{ route('admin.users.create') }}" class="btn btn-success">@lang('quickadmin.qa_add_new')</a>
-        </p>
-        @endcan
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                @lang('quickadmin.qa_list')
+        </div>
+        <div class="card-body">
+            <div class="breadcrumb-container position-relative">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item">User Management</li>
+                        <li class="breadcrumb-item active"><a href="#">Users</a></li>
+                    </ol>
+                </nav>
             </div>
-            <div class="panel-body table-responsive">
+            <div class="table-responsive">
+                <p class="text-dark">
+                    <i class="fas fa-exclamation-circle"></i> Click the display name to update the user.
+                </p>
                 <table class="table table-bordered table-striped {{ count($users) > 0 ? 'datatable' : '' }} @can('user_delete') dt-select @endcan">
                     <thead>
-                    <tr>
-                        @can('user_delete')
-                        <th style="text-align:center;"><input type="checkbox" id="select-all"/></th>
-                        @endcan
-
-                        <th>@lang('quickadmin.users.fields.name')</th>
-                        <th>@lang('quickadmin.users.fields.email')</th>
-                        <th>@lang('quickadmin.users.fields.role')</th>
-                        <th>&nbsp;</th>
-
-                    </tr>
+                    <th>@lang('quickadmin.users.fields.name')</th>
+                    <th>@lang('quickadmin.users.fields.email')</th>
+                    <th>@lang('quickadmin.users.fields.role')</th>
+                    <th>@lang('quickadmin.users.fields.created-at')</th>
                     </thead>
 
                     <tbody>
                     @if (count($users) > 0)
-                    @foreach ($users as $user)
-                    <tr data-entry-id="{{ $user->id }}">
-                        @can('user_delete')
-                        <td></td>
-                        @endcan
-
-                        <td field-key='name'>{{ $user->name }}</td>
-                        <td field-key='email'>{{ $user->email }}</td>
-                        <td field-key='role'>{{ $user->role->title or '' }}</td>
-                        <td>
-                            @can('user_view')
-                            <a href="{{ route('admin.users.show',[$user->id]) }}" class="btn btn-sm btn-primary">@lang('quickadmin.qa_view')</a>
-                            @endcan
-                            @can('user_edit')
-                            <a href="{{ route('admin.users.edit',[$user->id]) }}" class="btn btn-sm btn-info">@lang('quickadmin.qa_edit')</a>
-                            @endcan
-                            @can('user_delete')
-                            {!! Form::open(array(
-                            'style' => 'display: inline-block;',
-                            'method' => 'DELETE',
-                            'onsubmit' => "return confirm('".trans("quickadmin.qa_are_you_sure")."');",
-                            'route' => ['admin.users.destroy', $user->id])) !!}
-                            {!! Form::submit(trans('quickadmin.qa_delete'), array('class' => 'btn btn-sm btn-danger'))
-                            !!}
-                            {!! Form::close() !!}
-                            @endcan
-                        </td>
-                    </tr>
-                    @endforeach
+                        @foreach ($users as $user)
+                            <tr data-entry-id="{{ $user->id }}">
+                                <td field-key='name'>
+                                    <a href="#" class="edit-user">
+                                        {{ $user->name }}
+                                    </a>
+                                </td>
+                                <td field-key='email'>{{ $user->email }}</td>
+                                <td field-key='role'>{{ $user->role->title or '' }}</td>
+                                <td field-key='role'>{{ date('Y-m-d', strtotime($user->created_at))}}</td>
+                            </tr>
+                        @endforeach
                     @else
-                    <tr>
-                        <td colspan="10">@lang('quickadmin.qa_no_entries_in_table')</td>
-                    </tr>
+                        <tr>
+                            <td colspan="10">@lang('quickadmin.qa_no_entries_in_table')</td>
+                        </tr>
                     @endif
                     </tbody>
                 </table>
+                @can('user_create')
+                    <p class="text-right">
+                        <a href="{{ route('admin.users.create') }}"
+                           class="btn btn-success">@lang('quickadmin.qa_add_new')</a>
+                    </p>
+                @endcan
             </div>
+
         </div>
     </div>
-</div>
 @stop
 
 @section('javascript')
-<script>
-    @can('user_delete')
-    window.route_mass_crud_entries_destroy = '{{ route('admin.users.mass_destroy') }}';
-    @endcan
-
-</script>
+    <script>
+        @can('user_delete')
+            window.route_mass_crud_entries_destroy = '{{ route('admin.users.mass_destroy') }}';
+        @endcan
+    </script>
 @endsection

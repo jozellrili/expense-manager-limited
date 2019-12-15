@@ -7,52 +7,33 @@
             <h3 class="card-title">@lang('quickadmin.roles.title')</h3>
         </div>
         <div class="card-body">
-            @can('role_create')
-                <p>
-                    <a href="{{ route('admin.roles.create') }}"
-                       class="btn btn-success">@lang('quickadmin.qa_add_new')</a>
-                </p>
-            @endcan
+            <div class="breadcrumb-container position-relative">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item">User Management</li>
+                        <li class="breadcrumb-item active"><a href="#">Roles</a></li>
+                    </ol>
+                </nav>
+            </div>
             <div class="table-responsive">
+                <p class="text-dark">
+                    <i class="fas fa-exclamation-circle"></i> Click the display name to update the role.
+                </p>
                 <table class="table table-bordered table-striped {{ count($roles) > 0 ? 'datatable' : '' }} @can('role_delete') dt-select @endcan">
                     <thead>
-                    @can('role_delete')
-                        <th style="text-align:center;">
-                            <input type="checkbox" id="select-all"/>
-                        </th>
-                    @endcan
                     <th>@lang('quickadmin.roles.fields.title')</th>
-                    <th>Action</th>
+                    <th>@lang('quickadmin.roles.fields.description')</th>
+                    <th>@lang('quickadmin.roles.fields.created-at')</th>
                     </thead>
                     <tbody>
                     @if (count($roles) > 0)
                         @foreach ($roles as $role)
                             <tr data-entry-id="{{ $role->id }}">
-                                @can('role_delete')
-                                    <td></td>
-                                @endcan
-
-                                <td field-key='title'>{{ $role->title }}</td>
-                                <td>
-                                    @can('role_view')
-                                        <a href="{{ route('admin.roles.show',[$role->id]) }}"
-                                           class="btn btn-sm btn-primary">@lang('quickadmin.qa_view')</a>
-                                    @endcan
-                                    @can('role_edit')
-                                        <a href="{{ route('admin.roles.edit',[$role->id]) }}"
-                                           class="btn btn-sm btn-info">@lang('quickadmin.qa_edit')</a>
-                                    @endcan
-                                    @can('role_delete')
-                                        {!! Form::open(array(
-                                                                                'style' => 'display: inline-block;',
-                                                                                'method' => 'DELETE',
-                                                                                'onsubmit' => "return confirm('".trans("quickadmin.qa_are_you_sure")."');",
-                                                                                'route' => ['admin.roles.destroy', $role->id])) !!}
-                                        {!! Form::submit(trans('quickadmin.qa_delete'), array('class' => 'btn btn-sm btn-danger')) !!}
-                                        {!! Form::close() !!}
-                                    @endcan
+                                <td field-key='title'>
+                                    <a href="" class="edit-role">{{ $role->title }}</a>
                                 </td>
-
+                                <td field-key='description'>{{ $role->description }}</td>
+                                <td field-key='created-at'>{{ $role->created_at }}</td>
                             </tr>
                         @endforeach
                     @else
@@ -62,10 +43,49 @@
                     @endif
                     </tbody>
                 </table>
+                @can('role_create')
+                    <p class="text-right">
+                        <a href="#" id="add-role"
+                           class="btn btn-success">@lang('quickadmin.qa_add_new')</a>
+                    </p>
+                @endcan
             </div>
         </div>
     </div>
+
 @stop
+
+@section('modal')
+    <div class="modal" tabindex="-1" role="dialog" id="role-modal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title action-name"></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    {!! Form::open(['method' => 'POST']) !!}
+                    <input type="hidden" id="role-id">
+                    <div class="position-relative form-group">
+                        <label>@lang('quickadmin.roles.fields.title')</label>
+                        <input class="form-control form-control-sm" id="role-display-name" placeholder="Display Name">
+                    </div>
+                    <div class="position-relative form-group">
+                        <label>@lang('quickadmin.roles.fields.description')</label>
+                        <textarea class="form-control form-control-sm" id="role-description" placeholder="Description"></textarea>
+                    </div>
+                    {!! Form::close() !!}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary btn-sm" id="save-role">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+@endsection
 
 @section('javascript')
     <script>

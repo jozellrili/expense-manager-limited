@@ -1,20 +1,22 @@
 <?php
 
 return [
-    
+
     'user-management' => [
         'title'  => 'User management',
         'fields' => [
         ],
     ],
-    
+
     'roles' => [
         'title'  => 'Roles',
         'fields' => [
-            'title' => 'Title',
+            'title'       => 'Display Name',
+            'description' => 'Description',
+            'created-at'  => 'Created At',
         ],
     ],
-    
+
     'users' => [
         'title'  => 'Users',
         'fields' => [
@@ -23,16 +25,17 @@ return [
             'password'       => 'Password',
             'role'           => 'Role',
             'remember-token' => 'Remember token',
+            'created-at'     => 'Created At',
         ],
     ],
-    
+
     'expense-management' => [
         'title'  => 'Expense Management',
         'fields' => [
         ],
     ],
-    
-    'expense-category' => [
+
+    'expense-category'                        => [
         'title'  => 'Expense Categories',
         'fields' => [
             'name'        => 'Name',
@@ -41,49 +44,13 @@ return [
             'created-at'  => 'Created At',
         ],
     ],
-    
-    'income-category' => [
-        'title'  => 'Income categories',
-        'fields' => [
-            'name'       => 'Name',
-            'created-by' => 'Created by',
-        ],
-    ],
-    
-    'income' => [
-        'title'  => 'Income',
-        'fields' => [
-            'income-category' => 'Income Category',
-            'entry-date'      => 'Entry date',
-            'amount'          => 'Amount',
-            'created-by'      => 'Created by',
-        ],
-    ],
-    
-    'expense' => [
+    'expense'                                 => [
         'title'  => 'Expenses',
         'fields' => [
             'expense-category' => 'Expense Category',
             'entry-date'       => 'Entry date',
             'amount'           => 'Amount',
             'created-by'       => 'Created by',
-        ],
-    ],
-    
-    'monthly-report' => [
-        'title'  => 'Monthly report',
-        'fields' => [
-        ],
-    ],
-    
-    'currency'                                => [
-        'title'  => 'Currency',
-        'fields' => [
-            'title'                  => 'Title',
-            'symbol'                 => 'Symbol',
-            'money-format-thousands' => 'Money format for thousands',
-            'money-format-decimal'   => 'Money format for decimal',
-            'created-by'             => 'Created by',
         ],
     ],
     'qa_create'                               => 'Create',
@@ -160,8 +127,6 @@ return [
     'qa_expense'                              => 'Expense',
     'qa_entry_date'                           => 'Entry date',
     'qa_amount'                               => 'Amount',
-    'qa_income_categories'                    => 'Income categories',
-    'qa_monthly_report'                       => 'Monthly report',
     'qa_companies'                            => 'Companies',
     'qa_company_name'                         => 'Company name',
     'qa_address'                              => 'Address',
@@ -267,12 +232,8 @@ return [
     'qa_client_status'                        => 'Client status',
     'qa_clients'                              => 'Clients',
     'qa_client_statuses'                      => 'Client statuses',
-    'qa_currencies'                           => 'Currencies',
-    'qa_main_currency'                        => 'Main currency',
     'qa_documents'                            => 'Documents',
     'qa_file'                                 => 'File',
-    'qa_income_source'                        => 'Income source',
-    'qa_income_sources'                       => 'Income sources',
     'qa_fee_percent'                          => 'Fee percent',
     'qa_note_text'                            => 'Note text',
     'qa_client'                               => 'Client',
@@ -284,7 +245,6 @@ return [
     'qa_transaction_types'                    => 'Transaction types',
     'qa_transaction_type'                     => 'Transaction type',
     'qa_transaction_date'                     => 'Transaction date',
-    'qa_currency'                             => 'Currency',
     'qa_current_password'                     => 'Current password',
     'qa_new_password'                         => 'New password',
     'qa_password_confirm'                     => 'New password confirmation',

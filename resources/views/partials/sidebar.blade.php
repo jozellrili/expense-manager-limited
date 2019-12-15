@@ -44,16 +44,16 @@
                 </li>
                 <li>
                     <a href="{{ url('/') }}" class="{{ $request->segment(2) == 'home' ? 'mm-active' : '' }}">
-                        <i class="metismenu-icon pe-7s-rocket fas fa-tachometer-alt"></i>
+                        <i class="metismenu-icon pe-7s-rocket"></i>
                         @lang('quickadmin.qa_dashboard')
                     </a>
                 </li>
                 @can('user_management_access')
                     <li>
                         <a href="#" class="{{ $request->segment(2) == 'roles' || $request->segment(2) == 'users' ? 'mm-active' : '' }}" aria-expanded="{{ $request->segment(2) == 'roles' || $request->segment(2) == 'users' ? 'true' : 'false' }}">
-                            <i class="metismenu-icon pe-7s-diamond fas fa-users-cog"></i>
+                            <i class="metismenu-icon pe-7s-users"></i>
                             @lang('quickadmin.user-management.title')
-                            <i class="metismenu-state-icon pe-7s-angle-down caret-left fas fa-angle-left"></i>
+                            <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
                         </a>
                         <ul>
                             @can('role_access')
@@ -78,9 +78,9 @@
                 @can('expense_management_access')
                     <li>
                         <a href="#" class="{{ in_array($request->segment(2), ['expense_categories', 'income_categories', 'incomes', 'expenses', 'monthly_reports', 'currencies']) ? 'mm-active' : '' }}">
-                            <i class="metismenu-icon pe-7s-car fas fa-money-bill-wave"></i>
+                            <i class="metismenu-icon pe-7s-cash"></i>
                             @lang('quickadmin.expense-management.title')
-                            <i class="metismenu-state-icon pe-7s-angle-down caret-left fas fa-angle-left"></i>
+                            <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
                         </a>
                         <ul>
                             @can('expense_category_access')

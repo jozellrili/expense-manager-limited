@@ -49,6 +49,8 @@ class RolesController extends Controller
      */
     public function store(StoreRolesRequest $request)
     {
+        echo 1; exit;
+
         if (! Gate::allows('role_create')) {
             return abort(401);
         }

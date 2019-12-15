@@ -1,5 +1,5 @@
 @inject('request', 'Illuminate\Http\Request')
-<!DOCTYPE html>
+        <!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -48,6 +48,9 @@
 {!! Form::open(['route' => 'auth.logout', 'style' => 'display:none;', 'id' => 'logout']) !!}
 <button type="submit">Logout</button>
 {!! Form::close() !!}
+
+
+@yield('modal')
 
 @include('partials.javascripts')
 </body>
