@@ -38,7 +38,7 @@ return [
     'expense-category'                        => [
         'title'  => 'Expense Categories',
         'fields' => [
-            'name'        => 'Name',
+            'name'        => 'Display Name',
             'description' => 'Description',
             'created-by'  => 'Created by',
             'created-at'  => 'Created At',
@@ -51,6 +51,7 @@ return [
             'entry-date'       => 'Entry date',
             'amount'           => 'Amount',
             'created-by'       => 'Created by',
+            'created-at'       => 'Created At',
         ],
     ],
     'qa_create'                               => 'Create',
@@ -283,4 +284,5 @@ return [
     'qa_imported_rows_to_table'               => 'Imported :rows rows to :table table',
     'quickadmin_title'                        => 'Laravel Expense Manager',
     'quickadmin_add_category'                 => 'Add Category',
+    'quickadmin_add_expense'                  => 'Add Expense',
 ];

@@ -55,7 +55,7 @@
                             @lang('quickadmin.user-management.title')
                             <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
                         </a>
-                        <ul>
+                        <ul class="{{ $request->segment(2) == 'roles' || $request->segment(2) == 'users' ? 'mm-show' : '' }}">
                             @can('role_access')
                                 <li>
                                     <a class="{{ $request->segment(2) == 'roles' ? 'mm-active' : '' }}" href="{{ route('admin.roles.index') }}">
@@ -77,15 +77,15 @@
                 @endcan
                 @can('expense_management_access')
                     <li>
-                        <a href="#" class="{{ in_array($request->segment(2), ['expense_categories', 'income_categories', 'incomes', 'expenses', 'monthly_reports', 'currencies']) ? 'mm-active' : '' }}">
+                        <a href="#" class="{{ in_array($request->segment(2), ['expense_categories', 'expenses']) ? 'mm-active' : '' }}">
                             <i class="metismenu-icon pe-7s-cash"></i>
                             @lang('quickadmin.expense-management.title')
                             <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
                         </a>
-                        <ul>
+                        <ul class="{{ $request->segment(2) == 'expense_categories' || $request->segment(2) == 'expenses' ? 'mm-show' : '' }}">
                             @can('expense_category_access')
                                 <li>
-                                    <a class="{{ $request->segment(2) == 'expense_categories' ? 'mm-active' : '' }}" href="{{ route('admin.expense_categories.index') }}">
+                                    <a class="{{$request->segment(2) == 'expense_categories' ? 'mm-active' : '' }}" href="{{ route('admin.expense_categories.index') }}">
                                         <i class="metismenu-icon"></i>
                                         @lang('quickadmin.expense-category.title')
                                     </a>

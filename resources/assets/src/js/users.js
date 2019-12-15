@@ -54,12 +54,8 @@
             _token: modal.find('input[name="_token"]').val(),
         };
 
-        console.log(data);
-
         if (requestType == 'PUT') url = ajax_url + '/' + data.id;
         else url =  ajax_url;
-
-        console.log(requestType);
 
         if (saveXhr && saveXhr.readyState != 4) abort();
         saveXhr = $.ajax({
@@ -94,6 +90,8 @@
 
                     } else {
                         var row = userTable.find('tbody tr[data-entry-id="' + response.data.id + '"]');
+                        console.log(row);
+
                         row.find('.name').text(data.name);
                         row.find('.email').text(data.email);
                         row.find('.email').text(data.role);
@@ -122,20 +120,23 @@
             type: requestType,
             data: {id: id, _token: modal.find('input[name="_token"]').val()},
             dataType: 'json',
-            beforeSend: function () {},
+            beforeSend: function () {
+
+            },
             error: function (a, b, c) {
                 console.log(a, b, c)
             },
             success: function (response) {
                 if (response.status == 1) {
-                    userTable.find('tbody').find('tr[data-entry-id="'+ id + '"]').remove();
+                    roleTable.find('tbody').find('tr[data-entry-id="'+ id + '"]').remove();
                     notify({msg: response.message});
                     modal.modal('hide');
                 } else {
                     notify({type: 'danger', msg: response.message})
                 }
             },
-            complete: function () {},
+            complete: function () {
+            },
         });
     }
 
@@ -152,7 +153,7 @@
         addButton.on('click', onAddUser);
         saveButton.on('click', onSaveUser);
         $('.edit-user').on('click', onEditUser);
-        $('#delete-user').on('click', onDeleteUser);
+        $('.delete-user').on('click', onDeleteUser);
     }
 
     $(document).ready(init);

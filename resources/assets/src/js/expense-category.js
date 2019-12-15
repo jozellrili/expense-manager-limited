@@ -4,58 +4,55 @@
     var modalActionName = null;
     var saveXhr = null;
     var delXhr = null;
-    var roleTable = null;
+    var expenseCategoryTable = null;
     var requestType = null;
 
     function resetModal() {
-        $('#role-id').val('');
-        $('#role-display-name').val('');
-        $('#role-description').val('');
+        $('#expense-category-id').val('');
+        $('#expense-category-name').val('');
+        $('#expense-category-description').val('');
     }
 
-    function onAddRole(e) {
+    function onAddExpenseCategory(e) {
         e.preventDefault();
         resetModal();
 
         requestType = 'POST';
-        modalActionName = 'Add Role';
+        modalActionName = 'Add Category';
 
         modal.find('.action-name').text(modalActionName);
         modal.modal();
     }
 
-    function onEditRole(e) {
+    function onEditExpenseCategory(e) {
         e.preventDefault();
         resetModal();
 
         modalActionName = 'Update Role';
         requestType = 'PUT';
 
-        modal.find('#role-id').val($(e.currentTarget).attr('data-entry-id').trim());
-        modal.find('#role-display-name').val($(e.currentTarget).find('.title').text().trim());
-        modal.find('#role-description').val($(e.currentTarget).find('.description').text().trim());
+        modal.find('#expense-category-id').val($(e.currentTarget).attr('data-entry-id').trim());
+        modal.find('#expense-category-name').val($(e.currentTarget).find('.name').text().trim());
+        modal.find('#expense-category-description').val($(e.currentTarget).find('.description').text().trim());
 
         modal.find('.action-name').text(modalActionName);
         modal.modal();
     }
 
-
-    function onSaveRole(e) {
+    function onSaveExpenseCategory(e) {
         e.preventDefault();
-        var url = null;
         var data = {
-            id: modal.find('#role-id').val(),
-            title: modal.find('#role-display-name').val(),
-            description: modal.find('#role-description').val(),
+            id: modal.find('#expense-category-id').val(),
+            name: modal.find('#expense-category-name').val(),
+            description: modal.find('#expense-category-description').val(),
             _token: modal.find('input[name="_token"]').val(),
         };
 
-        if (requestType == 'PUT') url = ajax_url + '/' + data.id;
-        else url = ajax_url;
+        if (requestType == 'PUT') ajax_url = ajax_url + '/' + data.id;
 
         if (saveXhr && saveXhr.readyState != 4) abort();
         saveXhr = $.ajax({
-            url: url,
+            url: ajax_url,
             type: requestType,
             data: data,
             dataType: 'json',
@@ -70,18 +67,18 @@
 
                     if (requestType == 'POST') {
                         var createdAt = response.data.created_at.split(' ');
-                        roleTable.find('tbody').append(
-                            '<tr class="edit-role edit-row" data-entry-id="' + response.data.id + '">' +
-                            '<td field-key="title" class="title text-info">' + response.data.title + '</td>' +
+                        expenseCategoryTable.find('tbody').append(
+                            '<tr class="edit-expense-category edit-row" data-entry-id="' + response.data.id + '">' +
+                            '<td field-key="name" class="name text-info">' + response.data.name + '</td>' +
                             '<td field-key="description" class="description">' + response.data.description + '</td>' +
                             '<td field-key="created-at">' +  createdAt[0] + '</td>'
                         );
 
                         // rebind edit event
-                        roleTable.find('.edit-row').on('click', onEditRole);
+                        expenseCategoryTable.find('.edit-row').on('click', onEditExpenseCategory);
                     } else {
-                        var row = roleTable.find('tbody tr[data-entry-id="' + response.data.id + '"]');
-                        row.find('.title').text(data.title);
+                        var row = expenseCategoryTable.find('tbody tr[data-entry-id="' + response.data.id + '"]');
+                        row.find('.name').text(data.title);
                         row.find('.description').text(data.description);
                     }
 
@@ -96,9 +93,9 @@
         });
     }
 
-    function onDeleteRole() {
+    function onDeleteExpenseCategory() {
 
-        var id = modal.find('#role-id').val().trim();
+        var id = modal.find('#expense-category-id').val().trim();
         requestType = 'DELETE';
 
         if (delXhr && delXhr.readyState != 4) abort();
@@ -107,40 +104,37 @@
             type: requestType,
             data: {id: id, _token: modal.find('input[name="_token"]').val()},
             dataType: 'json',
-            beforeSend: function () {
-
-            },
+            beforeSend: function () {},
             error: function (a, b, c) {
                 console.log(a, b, c)
             },
             success: function (response) {
                 if (response.status == 1) {
-                    roleTable.find('tbody').find('tr[data-entry-id="' + id + '"]').remove();
+                    expenseCategoryTable.find('tbody').find('tr[data-entry-id="'+ id + '"]').remove();
                     notify({msg: response.message});
                     modal.modal('hide');
                 } else {
                     notify({type: 'danger', msg: response.message})
                 }
             },
-            complete: function () {
-            },
+            complete: function () {},
         });
     }
 
     function init() {
-        if (page != 'roles') return;
+        if (page != 'expense_categories') return;
 
         /** initialized variables **/
-        modal = $('#role-modal');
-        addButton = $('#add-role');
-        saveButton = $('#save-role');
-        roleTable = $('#role-table');
+        modal = $('#expense-category-modal');
+        addButton = $('#add-expense-category-btn');
+        saveButton = $('#save-expense-category');
+        expenseCategoryTable = $('#expense-category-table');
 
         /** Bind events to elements **/
-        addButton.on('click', onAddRole);
-        saveButton.on('click', onSaveRole);
-        $('.edit-role').on('click', onEditRole);
-        $('#delete-role').on('click', onDeleteRole);
+        addButton.on('click', onAddExpenseCategory);
+        saveButton.on('click', onSaveExpenseCategory);
+        $('.edit-expense-category').on('click', onEditExpenseCategory);
+        $('#delete-expense-category').on('click', onDeleteExpenseCategory);
 
     }
 

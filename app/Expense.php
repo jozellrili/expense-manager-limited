@@ -4,6 +4,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
 use App\Traits\FilterByUser;
+use Illuminate\Support\Facades\DB;
 
 /**
  * Class Expense
@@ -83,6 +84,16 @@ class Expense extends Model
     public function created_by()
     {
         return $this->belongsTo(User::class, 'created_by_id');
+    }
+
+    public function getTotalExpenseGroupByCategory()
+    {
+        $total = DB::table('expenses')
+            ->join('expense_categories', 'expenses.expense_category_id', '=', 'expense_categories.id')
+            ->select(DB::raw('SUM(amount) as total'), 'expense_categories.name as category')
+            ->groupBy('expense_categories.name')->get()->toArray();
+
+        return $total;
     }
     
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\ExpenseCategory;
+use App\Http\Requests\Admin\DestroyExpenseCategoriesRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use App\Http\Controllers\Controller;
@@ -63,7 +64,14 @@ class ExpenseCategoriesController extends Controller
         if (! Gate::allows('expense_category_create')) {
             return abort(401);
         }
-        $expense_category = ExpenseCategory::create($request->all());
+
+        if ($request->ajax()) {
+
+            $expense_category = ExpenseCategory::create($request->all());
+
+            if (count($expense_category)) return \Response::json(['status' => 1, 'message' => 'New expense category added', 'data' => $expense_category]);
+            else return \Response::json(['status' => 0, 'message' => 'Oops! Something went wrong']);
+        }
 
 
 
@@ -102,10 +110,15 @@ class ExpenseCategoriesController extends Controller
         if (! Gate::allows('expense_category_edit')) {
             return abort(401);
         }
-        $expense_category = ExpenseCategory::findOrFail($id);
-        $expense_category->update($request->all());
 
+        if ($request->ajax()) {
 
+            $expense_category = ExpenseCategory::findOrFail($id);
+            $updated = $expense_category->update($request->all());
+
+            if ($updated) return \Response::json(['status' => 1, 'message' => 'Expense Category updated!', 'data' => $expense_category]);
+            else return \Response::json(['status' => 0, 'message' => 'Oops! Something went wrong']);
+        }
 
         return redirect()->route('admin.expense_categories.index');
     }
@@ -134,16 +147,23 @@ class ExpenseCategoriesController extends Controller
     /**
      * Remove ExpenseCategory from storage.
      *
+     * @param DestroyExpenseCategoriesRequest $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(DestroyExpenseCategoriesRequest $request, $id)
     {
         if (! Gate::allows('expense_category_delete')) {
             return abort(401);
         }
-        $expense_category = ExpenseCategory::findOrFail($id);
-        $expense_category->delete();
+
+        if ($request->ajax()) {
+            $expense_category = ExpenseCategory::findOrFail($id);
+            $deleted = $expense_category->delete();
+
+            if ($deleted) return \Response::json(['status' => 1, 'message' => 'Expense Category permanently deleted!']);
+            else return \Response::json(['status' => 0, 'message' => 'Oops! Something went wrong']);
+        }
 
         return redirect()->route('admin.expense_categories.index');
     }

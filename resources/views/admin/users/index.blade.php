@@ -17,9 +17,6 @@
                 </nav>
             </div>
             <div class="table-responsive">
-                <p class="text-dark">
-                    <i class="fas fa-exclamation-circle"></i> Click the item to update the user.
-                </p>
                 <table id="users-table" class="table table-bordered table-striped {{ count($users) > 0 ? 'datatable' : '' }} @can('user_delete') dt-select @endcan">
                     <thead>
                     <th>@lang('quickadmin.users.fields.name')</th>

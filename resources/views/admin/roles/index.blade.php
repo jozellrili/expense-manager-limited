@@ -16,9 +16,6 @@
                 </nav>
             </div>
             <div class="table-responsive">
-                <p class="text-dark">
-                    <i class="fas fa-exclamation-circle"></i> Click the item to update the role.
-                </p>
                 <table id="role-table" class="table table-bordered table-striped {{ count($roles) > 0 ? 'datatable' : '' }} @can('role_delete') dt-select @endcan">
                     <thead>
                     <th>@lang('quickadmin.roles.fields.title')</th>

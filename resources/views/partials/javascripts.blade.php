@@ -21,6 +21,7 @@
 <script src="https://cdn.datatables.net/buttons/1.2.4/js/buttons.colVis.min.js"></script>
 <script src="https://cdn.datatables.net/select/1.2.0/js/dataTables.select.min.js"></script>
 <script src="https://code.jquery.com/ui/1.11.3/jquery-ui.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
 <script src="{{ url('plugins/bootstrap-4.0/js/bootstrap.js') }}"></script>
 <script src="{{ url('js/lib/bootstrap-notify.min.js') }}"></script>
 <script src="{{ url('plugins/architectui/js/main.js') }}"></script>

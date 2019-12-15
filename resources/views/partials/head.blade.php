@@ -28,6 +28,7 @@
 <link rel="stylesheet" href="https://cdn.datatables.net/select/1.2.0/css/select.dataTables.min.css"/>
 <link rel="stylesheet" href="//cdn.datatables.net/buttons/1.2.4/css/buttons.dataTables.min.css"/>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/css/bootstrap-datepicker.standalone.min.css"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.css"/>
 <link href="{{ url('plugins/architectui/css/main.css') }}" rel="stylesheet">
 <link href="{{ url('plugins/bootstrap-4.0/css/bootstrap.min.css') }}" rel="stylesheet">
 <link href="{{ url('css/style.min.css') }}" rel="stylesheet">
