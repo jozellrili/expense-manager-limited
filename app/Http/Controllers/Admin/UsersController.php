@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Gate;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\StoreUsersRequest;
 use App\Http\Requests\Admin\UpdateUsersRequest;
+use Illuminate\Support\Facades\Hash;
 
 class UsersController extends Controller
 {
@@ -24,8 +25,9 @@ class UsersController extends Controller
         
         
         $users = User::all();
-        
-        return view('admin.users.index', compact('users'));
+        $roles = \App\Role::get()->pluck('title', 'id')->prepend(trans('quickadmin.qa_please_select'), '');
+
+        return view('admin.users.index', compact('users', 'roles'));
     }
     
     /**
@@ -56,8 +58,15 @@ class UsersController extends Controller
         if (!Gate::allows('user_create')) {
             return abort(401);
         }
-        $user = User::create($request->all());
-        
+
+        if ($request->ajax()) {
+            $fields = $request->all();
+            $fields['password'] = Hash::make('password');
+            $user = User::create($fields);
+
+            if (count($user)) return \Response::json(['status' => 1, 'message' => 'New user added', 'data' => $user]);
+            else return \Response::json(['status' => 0, 'message' => 'Oops! Something went wrong']);
+        }
         
         return redirect()->route('admin.users.index');
     }
@@ -96,10 +105,17 @@ class UsersController extends Controller
         if (!Gate::allows('user_edit')) {
             return abort(401);
         }
-        $user = User::findOrFail($id);
-        $user->update($request->all());
-        
-        
+
+        if ($request->ajax()) {
+            $fields = $request->all();
+
+            $user = User::findOrFail($id);
+            $updated = $user->update($fields);
+
+            if ($updated) return \Response::json(['status' => 1, 'message' => 'User information updated!', 'data' => ['id' => $id]]);
+            else return \Response::json(['status' => 0, 'message' => 'Oops! Something went wrong']);
+        }
+
         return redirect()->route('admin.users.index');
     }
     

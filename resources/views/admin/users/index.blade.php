@@ -39,7 +39,7 @@
                                 </td>
                                 <td field-key='email'>{{ $user->email }}</td>
                                 <td field-key='role'>{{ $user->role->title or '' }}</td>
-                                <td field-key='role'>{{ date('Y-m-d', strtotime($user->created_at))}}</td>
+                                <td field-key='created-at'>{{ date('Y-m-d', strtotime($user->created_at))}}</td>
                             </tr>
                         @endforeach
                     @else
@@ -51,7 +51,7 @@
                 </table>
                 @can('user_create')
                     <p class="text-right">
-                        <a href="{{ route('admin.users.create') }}"
+                        <a id="add-user" href="{{ route('admin.users.create') }}"
                            class="btn btn-success">@lang('quickadmin.qa_add_new')</a>
                     </p>
                 @endcan
@@ -60,9 +60,45 @@
         </div>
     </div>
 @stop
+@section('modal')
+    <div class="modal" tabindex="-1" role="dialog" id="users-modal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title action-name"></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    {!! Form::open(['method' => 'POST']) !!}
+                    <input type="hidden" id="user-id">
+                    <div class="position-relative form-group">
+                        <label>@lang('quickadmin.users.fields.name')</label>
+                        <input class="form-control form-control-sm" id="user-name" placeholder="Name">
+                    </div>
+                    <div class="position-relative form-group">
+                        <label>@lang('quickadmin.users.fields.email')</label>
+                        <input class="form-control form-control-sm" id="role-email" placeholder="juandelacruz@email.com">
+                    </div>
+                    <div class="position-relative form-group">
+                        <label>@lang('quickadmin.users.fields.role')</label>
+                        {!! Form::select('role_id', $roles, old('role_id'), ['class' => 'form-control form-control-sm select2','required' => '']) !!}
+                    </div>
+                    {!! Form::close() !!}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary btn-sm" id="save-user">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+@endsection
 
 @section('javascript')
     <script>
+        var ajax_url = '{{ route('admin.users.update', '') }}';
         @can('user_delete')
             window.route_mass_crud_entries_destroy = '{{ route('admin.users.mass_destroy') }}';
         @endcan

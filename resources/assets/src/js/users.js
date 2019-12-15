@@ -3,50 +3,50 @@
     var addButton, saveButton = null;
     var modalActionName = null;
     var saveXhr = null;
-    var roleTable = null;
+    var userTable = null;
     var requestType = null;
 
     function resetModal() {
-        $('#role-id').val('');
-        $('#role-display-name').val('');
-        $('#role-description').val('');
+        $('#user-id').val('');
+        $('#user-name').val('');
+        $('#user-email').val('');
     }
 
-    function onAddRole(e) {
+    function onAddUser(e) {
         e.preventDefault();
         resetModal();
 
         requestType = 'POST';
-        modalActionName = 'Add Role';
+        modalActionName = 'Add User';
 
         modal.find('.action-name').text(modalActionName);
         modal.modal();
     }
 
-    function onEditRole(e) {
+    function onEditUser(e) {
         e.preventDefault();
         resetModal();
 
-        modalActionName = 'Update Role';
+        modalActionName = 'Update User';
         requestType = 'PUT';
 
         var row = $(e.currentTarget).closest('tr');
 
-        modal.find('#role-id').val(row.attr('data-entry-id').trim());
-        modal.find('#role-display-name').val(row.find('.title').text().trim());
-        modal.find('#role-description').val(row.find('.description').text().trim());
+        modal.find('#user-id').val(row.attr('data-entry-id').trim());
+        modal.find('#user-display-name').val(row.find('.title').text().trim());
+        modal.find('#user-description').val(row.find('.description').text().trim());
 
         modal.find('.action-name').text(modalActionName);
         modal.modal();
     }
 
 
-    function onSaveRole(e) {
+    function onSaveUser(e) {
         e.preventDefault();
         var data = {
-            id: modal.find('#role-id').val(),
-            title: modal.find('#role-display-name').val(),
-            description: modal.find('#role-description').val(),
+            id: modal.find('#user-id').val(),
+            title: modal.find('#user-display-name').val(),
+            description: modal.find('#user-description').val(),
             _token: modal.find('input[name="_token"]').val(),
         };
 
@@ -69,17 +69,17 @@
                 if (response.status == 1) {
 
                     if (requestType == 'POST') {
-                        roleTable.find('tbody').append(
+                        userTable.find('tbody').append(
                             '<tr data-entry-id=' + response.data.id + '>' +
                             ' <td field-key="title">' +
-                            '<a href="" class="edit-role">' + response.data.title + '</a>' +
+                            '<a href="" class="edit-user">' + response.data.title + '</a>' +
                             '</td>' +
                             '<td field-key="description">' + response.data.description + '</td>' +
                             '<td field-key="created-at">' + response.data.created_at + '</td>'
                         );
                     } else {
                         console.log('here');
-                        var row = roleTable.find('tbody tr[data-entry-id="' + response.data.id + '"]');
+                        var row = userTable.find('tbody tr[data-entry-id="' + response.data.id + '"]');
                         console.log(row);
 
                         row.find('.title a').text(data.title);
@@ -103,18 +103,18 @@
     }
 
     function init() {
-        if (page != 'roles') return;
+        if (page != 'users') return;
 
         /** initialized variables **/
-        modal = $('#role-modal');
-        addButton = $('#add-role');
-        saveButton = $('#save-role');
-        roleTable = $('#role-table');
+        modal = $('#users-modal');
+        addButton = $('#add-user');
+        saveButton = $('#save-user');
+        userTable = $('#users-table');
 
         /** Bind events to elements **/
-        addButton.on('click', onAddRole);
-        saveButton.on('click', onSaveRole);
-        $('.edit-role').on('click', onEditRole);
+        addButton.on('click', onAddUser);
+        saveButton.on('click', onSaveUser);
+        $('.edit-user').on('click', onEditUser);
 
         displayModalActionName();
     }
