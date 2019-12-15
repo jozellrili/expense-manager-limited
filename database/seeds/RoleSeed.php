@@ -4,7 +4,7 @@ use Illuminate\Database\Seeder;
 
 class RoleSeed extends Seeder
 {
-    /**
+    /**git sta
      * Run the database seeds.
      *
      * @return void
@@ -13,8 +13,8 @@ class RoleSeed extends Seeder
     {
         $items = [
             
-            ['id' => 1, 'title' => 'Administrator (can create other users)',],
-            ['id' => 2, 'title' => 'Simple user',],
+            ['id' => 1, 'title' => 'Administrator', 'description' => 'Can manage other users'],
+            ['id' => 2, 'title' => 'User', 'description' => 'Simple User'],
 
         ];
 

@@ -7,11 +7,6 @@
         <h3 class="card-title">@lang('quickadmin.expense-category.title')</h3>
     </div>
     <div class="card-body">
-        @can('expense_category_create')
-        <p>
-            <a href="{{ route('admin.expense_categories.create') }}" class="btn btn-success">@lang('quickadmin.qa_add_new')</a>
-        </p>
-        @endcan
         <div class="panel-body table-responsive">
             <table class="table table-bordered table-striped {{ count($expense_categories) > 0 ? 'datatable' : '' }} @can('expense_category_delete') dt-select @endcan">
                 <thead>
@@ -43,6 +38,11 @@
                 </tbody>
             </table>
         </div>
+        @can('expense_category_create')
+            <div class="text-right">
+                <a href="#" class="btn btn-success" id="add-expense-category-btn">@lang('quickadmin.quickadmin_add_category')</a>
+            </div>
+        @endcan
     </div>
 </div>
 @stop

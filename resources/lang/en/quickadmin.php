@@ -322,4 +322,5 @@ return [
     'qa_import_data'                          => 'Import data',
     'qa_imported_rows_to_table'               => 'Imported :rows rows to :table table',
     'quickadmin_title'                        => 'Laravel Expense Manager',
+    'quickadmin_add_category'                 => 'Add Category',
 ];

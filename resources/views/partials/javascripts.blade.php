@@ -1,3 +1,4 @@
+@inject('request', 'Illuminate\Http\Request')
 <script>
     window.deleteButtonTrans = '{{ trans("quickadmin.qa_delete_selected") }}';
     window.copyButtonTrans = '{{ trans("quickadmin.qa_copy") }}';
@@ -7,8 +8,8 @@
     window.printButtonTrans = '{{ trans("quickadmin.qa_print") }}';
     window.colvisButtonTrans = '{{ trans("quickadmin.qa_colvis") }}';
 </script>
-<script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
-<script src="//cdn.datatables.net/1.10.9/js/jquery.dataTables.min.js"></script>
+<script src="{{ url('plugins/jQuery/jquery-3.4.1.min.js') }}"></script>
+<script src="{{ url('plugins/dataTables/jquery.dataTables.js') }}"></script>
 <script src="//cdn.datatables.net/buttons/1.2.4/js/dataTables.buttons.min.js"></script>
 <script src="//cdn.datatables.net/buttons/1.2.4/js/buttons.flash.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
@@ -22,10 +23,12 @@
 <script src="https://code.jquery.com/ui/1.11.3/jquery-ui.min.js"></script>
 <script src="{{ url('plugins/bootstrap-4.0/js/bootstrap.js') }}"></script>
 <script src="{{ url('plugins/architectui/js/main.js') }}"></script>
+<script src="{{ url('js/all.min.js') }}"></script>
 <script>
     window._token = '{{ csrf_token() }}';
 </script>
 <script>
+    var page = '{{ $request->segment(2) }}';
     $.extend(true, $.fn.dataTable.defaults, {
         "language": {
             "url": "http://cdn.datatables.net/plug-ins/1.10.16/i18n/English.json"

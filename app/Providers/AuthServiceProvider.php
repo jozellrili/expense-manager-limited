@@ -76,52 +76,18 @@ class AuthServiceProvider extends ServiceProvider
 
         // Auth gates for: Expense category
         Gate::define('expense_category_access', function ($user) {
-            return in_array($user->role_id, [1, 2]);
+            return in_array($user->role_id, [1]);
         });
         Gate::define('expense_category_create', function ($user) {
-            return in_array($user->role_id, [1, 2]);
+            return in_array($user->role_id, [1]);
         });
         Gate::define('expense_category_edit', function ($user) {
-            return in_array($user->role_id, [1, 2]);
+            return in_array($user->role_id, [1]);
         });
         Gate::define('expense_category_view', function ($user) {
-            return in_array($user->role_id, [1, 2]);
+            return in_array($user->role_id, [1]);
         });
         Gate::define('expense_category_delete', function ($user) {
-            return in_array($user->role_id, [1]);
-        });
-
-        // Auth gates for: Income category
-        Gate::define('income_category_access', function ($user) {
-            return in_array($user->role_id, [1, 2]);
-        });
-        Gate::define('income_category_create', function ($user) {
-            return in_array($user->role_id, [1, 2]);
-        });
-        Gate::define('income_category_edit', function ($user) {
-            return in_array($user->role_id, [1, 2]);
-        });
-        Gate::define('income_category_view', function ($user) {
-            return in_array($user->role_id, [1, 2]);
-        });
-        Gate::define('income_category_delete', function ($user) {
-            return in_array($user->role_id, [1]);
-        });
-
-        // Auth gates for: Income
-        Gate::define('income_access', function ($user) {
-            return in_array($user->role_id, [1, 2]);
-        });
-        Gate::define('income_create', function ($user) {
-            return in_array($user->role_id, [1, 2]);
-        });
-        Gate::define('income_edit', function ($user) {
-            return in_array($user->role_id, [1, 2]);
-        });
-        Gate::define('income_view', function ($user) {
-            return in_array($user->role_id, [1, 2]);
-        });
-        Gate::define('income_delete', function ($user) {
             return in_array($user->role_id, [1]);
         });
 
@@ -141,28 +107,5 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('expense_delete', function ($user) {
             return in_array($user->role_id, [1]);
         });
-
-        // Auth gates for: Monthly report
-        Gate::define('monthly_report_access', function ($user) {
-            return in_array($user->role_id, [1, 2]);
-        });
-
-        // Auth gates for: Currency
-        Gate::define('currency_access', function ($user) {
-            return in_array($user->role_id, [1]);
-        });
-        Gate::define('currency_create', function ($user) {
-            return in_array($user->role_id, [1]);
-        });
-        Gate::define('currency_edit', function ($user) {
-            return in_array($user->role_id, [1]);
-        });
-        Gate::define('currency_view', function ($user) {
-            return in_array($user->role_id, [1]);
-        });
-        Gate::define('currency_delete', function ($user) {
-            return in_array($user->role_id, [1]);
-        });
-
     }
 }

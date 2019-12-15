@@ -20,7 +20,7 @@ use Illuminate\Support\Facades\Auth;
 class User extends Authenticatable
 {
     use Notifiable;
-    protected $fillable = ['name', 'email', 'password', 'remember_token', 'role_id', 'currency_id'];
+    protected $fillable = ['name', 'email', 'password', 'remember_token', 'role_id'];
     
     
     

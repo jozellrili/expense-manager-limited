@@ -12,8 +12,7 @@ class UserSeed extends Seeder
     public function run()
     {
         $items = [
-            
-            ['id' => 1, 'name' => 'Admin', 'email' => 'admin@admin.com', 'password' => '$2y$10$msflsjAZ7jGwsJBZ18Uthu.C8DWDzxdRGhuwQpFUgreL4MPPxU0zq', 'role_id' => 1, 'remember_token' => '', 'currency_id' => 1],
+            ['id' => 1, 'name' => 'Admin', 'email' => 'admin@admin.com', 'password' => '$2y$10$msflsjAZ7jGwsJBZ18Uthu.C8DWDzxdRGhuwQpFUgreL4MPPxU0zq', 'role_id' => 1, 'remember_token' => ''],
 
         ];
 

@@ -19,10 +19,7 @@ class Create1516640282UsersTable extends Migration
                 $table->string('email');
                 $table->string('password');
                 $table->string('remember_token')->nullable();
-                $table->unsignedInteger('currency_id')->nullable();
-                
                 $table->timestamps();
-                
             });
         }
     }

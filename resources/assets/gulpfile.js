@@ -1,4 +1,4 @@
-const { src, dest, parallel } = require('gulp');
+const {src, dest, parallel} = require('gulp');
 const gulp = require('gulp');
 
 // Include Our Plugins
@@ -11,33 +11,32 @@ const autoprefixer = require('gulp-autoprefixer');
 const image = require('gulp-image');
 const cleanCSS = require('gulp-clean-css');
 const sourcemaps = require('gulp-sourcemaps');
-var del = require('del');
+const del = require('del');
 
 /* Not all tasks need to use streams, a gulpfile is just another node program
  * and you can use all packages available on npm, but it must return either a
  * Promise, a Stream or take a callback and call it
  */
 function clean() {
-  // You can use multiple globbing patterns as you would with `gulp.src`,
-  // for example if you are using del 2.0 or above, return its promise
-  return del(['../../public/css/style.min.css', '../../public/js/all/min.css']);
+    // You can use multiple globbing patterns as you would with `gulp.src`,
+    // for example if you are using del 2.0 or above, return its promise
+    return del(['../../public/css/style.min.css', '../../public/js/all/min.css']);
 }
 
 
-
 const paths = {
-  styles: {
-      src: ['src/scss/*.scss', 'src/scss/**/*.scss'],
-      dest: '../../public/css/'
-  },
-  scripts: {
-      src: 'src/js/*.js',
-      dest: '../../public/js/'
-  },
-  images: {
-      src: 'dist/images/**/*',
-      dest: '../../public/images/**/*'
-  }
+    styles: {
+        src: ['src/scss/*.scss', 'src/scss/**/*.scss'],
+        dest: '../../public/css/'
+    },
+    scripts: {
+        src: 'src/js/*.js',
+        dest: '../../public/js/'
+    },
+    images: {
+        src: 'dist/images/**/*',
+        dest: '../../public/images/**/*'
+    }
 };
 
 /*
@@ -45,39 +44,39 @@ const paths = {
 */
 
 function styles() {
-  return src(paths.styles.src)
-  .pipe(sourcemaps.init())
-  .pipe(sass({ outputStyle: 'compressed' }).on('error', sass.logError ))
-  .pipe(autoprefixer())
-  .pipe(cleanCSS())
-  // pass in options to the stream
-  .pipe(rename({
-      basename: 'style',
-      suffix: '.min'
-  }))
-  .pipe(sourcemaps.write('.'))
-  .pipe(gulp.dest(paths.styles.dest));
+    return src(paths.styles.src)
+        .pipe(sourcemaps.init())
+        .pipe(sass({outputStyle: 'compressed'}).on('error', sass.logError))
+        .pipe(autoprefixer())
+        .pipe(cleanCSS({force: true}))
+        // pass in options to the stream
+        .pipe(rename({
+            basename: 'style',
+            suffix: '.min'
+        }))
+        .pipe(sourcemaps.write('.'))
+        .pipe(gulp.dest(paths.styles.dest));
 }
 
 function scripts() {
-  return src(paths.scripts.src)
-    .pipe(sourcemaps.init())
-    .pipe(babel())  
-    .pipe(uglify())
-    .pipe(concat('all.min.js'))    
-    .pipe(sourcemaps.write('.'))
-    .pipe(dest(paths.scripts.dest));
+    return src(paths.scripts.src)
+        .pipe(sourcemaps.init())
+        .pipe(babel())
+        .pipe(uglify())
+        .pipe(concat('all.min.js'))
+        .pipe(sourcemaps.write('.'))
+        .pipe(dest(paths.scripts.dest));
 }
 
-function images(){
-  return gulp.src(paths.styles.src)
-      .pipe(image())
-      .pipe(gulp.dest(paths.images.dest));
+function images() {
+    return gulp.src(paths.styles.src)
+        .pipe(image())
+        .pipe(gulp.dest(paths.images.dest));
 }
 
 function watch() {
-  gulp.watch(paths.scripts.src, scripts);
-  gulp.watch(paths.styles.src, styles);
+    gulp.watch(paths.scripts.src, scripts);
+    gulp.watch(paths.styles.src, styles);
 }
 
 /*

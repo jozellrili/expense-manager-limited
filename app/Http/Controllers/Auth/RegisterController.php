@@ -60,9 +60,7 @@ class RegisterController extends Controller
 
     public function showRegistrationForm()
     {
-        $currencies = \App\Currency::all();
-        
-        return view('auth.register', compact('currencies'));
+        return view('auth.register');
     }
 
 
@@ -79,7 +77,7 @@ class RegisterController extends Controller
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
             'role_id' => config('quickadmin.default_role_id'),
-            'currency_id' => $data['currency'],
+            'currency_id' => 1,
         ]);
     }
 }

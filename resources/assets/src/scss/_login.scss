@@ -6,7 +6,7 @@
 
   .login-wrapper {
 
-    .login-container {
+    .login-container, .register-container {
       background: #191919 !important;
       height: 100vh;
 
@@ -14,7 +14,7 @@
         color: #ffffff;
       }
 
-      .login-form {
+      .login-form, .register-form {
         width: 500px;
         margin: 0 auto;
         background: #fff;

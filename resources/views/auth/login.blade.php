@@ -49,8 +49,6 @@
                 <div class="position-relative">
                     <a href="{{ route('auth.register') }}">@lang('auth.not_a_member')</a>
                 </div>
-
-
             </form>
         </div>
     </div>
